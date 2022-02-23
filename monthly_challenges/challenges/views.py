@@ -1,19 +1,20 @@
-from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseNotFound,HttpResponseRedirect
+from django.shortcuts import redirect, render
+from django.http import HttpResponse, HttpResponseNotFound,HttpResponseRedirect, response
+from django.urls import reverse
 
 monthly_challenges = {
-    "january":"january",
-    "february":"february",
-    "march":"march",
-    "april":"april",
-    "may":"may",
-    "june":"june",
-    "july":"july",
-    "august":"august",
-    "september":"september",
-    "october":"october",
-    "november":"november",
-    "december": "december"
+    "january":"january, Django",
+    "february":"february, Dondon",
+    "march":"march, Gym",
+    "april":"april, Bootcamp",
+    "may":"may, Flask",
+    "june":"june, Chef",
+    "july":"july, Algorithm",
+    "august":"august, Jobs",
+    "september":"september, Indeed",
+    "october":"october, Linkedin",
+    "november":"november, Python",
+    "december": "december, JavaScript"
 }
 # Create your views here.
 
@@ -41,6 +42,18 @@ monthly_challenges = {
 #     return HttpResponse(challenge_text)
   ############  
   
+  
+  
+def index(request):
+    # response_data = "<ul><li><a href='/challenges/january'>January</a></li></ul>"
+    list_items = ""
+    months = list(monthly_challenges.keys())
+    for month in months:
+        month_path = reverse("month-challenge", args=[month])
+        list_items += f"<li><a href='{month_path}'>{month.capitalize()}</></li>"
+    response_data = f"<ul>{list_items}</ul>"
+    return HttpResponse(response_data)
+  
 def monthly_challenge_by_number(request, month):
     # take the keys of monthly_challenges and make it a list
     months = list(monthly_challenges.keys())
@@ -50,12 +63,14 @@ def monthly_challenge_by_number(request, month):
     forward_month = months[month - 1]
     # the purpose here is that the number (month) comes in as int and then we use it to 
     # look for that number in the list if it mathces than redirect it using HttpResponseRedirect()
-    return HttpResponseRedirect("/challenges/" + forward_month)
+    redirect_path = reverse("month-challenge", args=[forward_month]) # /challenge/january
+    return HttpResponseRedirect(redirect_path)
     
 def monthly_challenge(request, month):
     try:
         challenge_text = monthly_challenges[month]
-        return HttpResponse(challenge_text)
+        response_data = f"<h1>{challenge_text}</h1>"
+        return HttpResponse(response_data)
     except:
         return HttpResponseNotFound("Not that month")
 #########
