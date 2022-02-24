@@ -15,7 +15,7 @@ monthly_challenges = {
     "september":"september, Indeed",
     "october":"october, Linkedin",
     "november":"november, Python",
-    "december": "december, JavaScript"
+    "december": None
 }
 # Create your views here.
 
@@ -81,14 +81,17 @@ monthly_challenges = {
 
 def index(request):
 
-    list_items = ""
+    # list_items = ""
     months = list(monthly_challenges.keys())
-    for month in months:
-        month_path = reverse("month-challenge", args=[month])
-        capilalized_month = month.capitalize()
-        list_items += f"<li><a href='{month_path}'>{capilalized_month}</></li>"
-    response_data = f"<ul>{list_items}</ul>"
-    return HttpResponse(response_data)
+    # for month in months:
+    #     month_path = reverse("month-challenge", args=[month])
+    #     capilalized_month = month.capitalize()
+    #     list_items += f"<li><a href='{month_path}'>{capilalized_month}</></li>"
+    # response_data = f"<ul>{list_items}</ul>"
+    # return HttpResponse(response_data)
+    return render(request, "challenges/index.html", {
+        "months":months
+    })
   
 def monthly_challenge_by_number(request, month):
 
