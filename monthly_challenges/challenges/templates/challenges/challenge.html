@@ -1,5 +1,8 @@
-{%extends "base.html"%} {% block page_title%} {{month_name|title}} {% endblock%}
-{% block content %} {% include "challenges/includes/header.html" %}
+{%extends "base.html"%} {% block page_title%} {{month_name|title}} {% block
+css_files %} <link rel="stylesheet" href="{% static "challenges/challenge.css"
+%}"> <link rel="stylesheet" href="{% static "challenges/header.css" %}"> {%
+endblock %} {% endblock%} {% block content %} {% include
+"challenges/includes/header.html"%}
 <h1>{{ month|title }}'s Challenge</h1>
 {% if text is not None %}
 <h2>{{ text }}</h2>
